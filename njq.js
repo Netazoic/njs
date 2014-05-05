@@ -77,8 +77,10 @@ var njq = (function (parent, $) {
 		if(!flgKeepFirst)$el.empty(); // remove old options
 		else $('#' + selID + ' option:gt(0)').remove(); // remove all options, but not the first
 	 	$.each(newOptions, function(key, value) {
-				  $el.append($("<option></option>")
-				     .attr("value", value).text(key));
+ 			if(key && key != "undefined"){
+			  $el.append($("<option></option>")
+			     .attr("value", value).text(key));
+ 			}
 		});
 	 	
 	 	if(selectedVal)	$el.val(selectedVal);
