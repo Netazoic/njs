@@ -12,6 +12,22 @@ var njq = (function (parent, $) {
 		alert(msg);
 	};
 	
+	my.createDiv = function(id,parent){
+		return createEl(id,"div",parent);
+	}
+	my.createEl = function(id,type,parent){
+		var e = $(document.createElement(type));
+		e.attr("id",id);
+		if(parent) e.appendTo(parent);
+		e = $("#" + id);
+		return e;
+	}
+	my.createHidden = function(id,parent){
+		var e = createEl(id,"input",parent);
+		e.attr("type","hidden");
+		return e;
+	}
+	
 	my.get = function (url, params, callback) {
 		// ok, so I'm cheating a bit :)
 		return $.getJSON(url, params, callback);
@@ -64,7 +80,7 @@ var njq = (function (parent, $) {
 	}
 
 
-	my.setOptions = function(selID,newOptions,selectedVal,flgKeepFirst){
+	my.setOptions = function(sel,newOptions,selectedVal,flgKeepFirst){
 		//Thanks to CMS on http://stackoverflow.com/questions/1801499/how-to-change-options-of-select-with-jquery
 		//Set options in an HTML select input
 		//New options is a set of options in the form key:val, where key is the diplay and val is the actual value
@@ -73,7 +89,16 @@ var njq = (function (parent, $) {
 				  "Option 3": "value3"
 				};
 		*/
-		var $el = $("#" + selID);
+		var $el, selID;
+		if(sel instanceof jQuery) $el = sel;
+		else if (sel instanceof String)  $el = $("#" + sel);
+		else if(sel.id) $el = $("#" + sel.id);
+		else if(sel[0] && sel[0].id) $el = $("#" + sel[0].id);
+		else{
+			alert("NJQ: couldn't figure out where you wanted to create the select. was trying to use " + sel);
+			return;
+		}
+		selID = $el.attr("id");
 		if(!flgKeepFirst)$el.empty(); // remove old options
 		else $('#' + selID + ' option:gt(0)').remove(); // remove all options, but not the first
 	 	$.each(newOptions, function(key, value) {
