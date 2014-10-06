@@ -13,7 +13,7 @@ var njq = (function (parent, $) {
 	};
 	
 	my.createDiv = function(id,parent){
-		return createEl(id,"div",parent);
+		return my.createEl(id,"div",parent);
 	}
 	my.createEl = function(id,type,parent){
 		var e = $(document.createElement(type));
@@ -23,7 +23,7 @@ var njq = (function (parent, $) {
 		return e;
 	}
 	my.createHidden = function(id,parent){
-		var e = createEl(id,"input",parent);
+		var e = my.createEl(id,"input",parent);
 		e.attr("type","hidden");
 		return e;
 	}
