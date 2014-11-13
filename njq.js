@@ -33,6 +33,11 @@ var njq = (function (parent, $) {
 		return $.getJSON(url, params, callback);
 	};
 	
+	my.getPageCode = function(){
+		var pgCode = location.pathname.match(/\/(.*)\/?/)[1];
+		return pgCode;
+	}
+	
 	my.jqGet = function(myURL, flgSync, fLoad, fErr, dataType) {
 		if (dataType == null)
 			dataType = 'json';
