@@ -52,7 +52,11 @@ var njq = (function (parent, $) {
 	     return opts;
 	};
 	
-
+	my.getPageCode = function(){
+		var pgCode = location.pathname.match(/\/(.*)\/?/)[1];
+		return pgCode;
+	}
+	
 	my.jqGet = function(myURL, flgSync, fLoad, fErr, dataType) {
 		if (dataType == null)
 			dataType = 'json';
@@ -91,7 +95,27 @@ var njq = (function (parent, $) {
 			// alert( "finished" );
 		});
 	};
-	
+	my.popWindow = function(url, id, h, w, screenX, screenY, location, statusbar) {
+		day = new Date();
+		if (id == null) {
+			id = day.getTime();
+		}
+		pageID = "page" + id;
+		var s = "window.open(url, '"
+				+ id
+				+ "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,titlebar=1"
+				+ ",width=" + w + ",height=" + h + ",left=" + screenX + ",top="
+				+ screenY + "');";
+		// console.debug(s);
+		// eval(pageID + " = " + s);
+		var newWin = eval(s);
+		if(!newWin){
+			//alert("Could not open a new window. Please allow your browser to open pop-up windows for this website.");
+			return false;
+		}
+		newWin.focus();
+		return newWin;
+	};
 	my.qsVal = function(key) {
 		//Thanks http://stackoverflow.com/users/361684/gilly3
 		key = key.replace(/[*+?^$.\[\]{}()|\\\/]/g, "\\$&"); // escape RegEx meta chars
@@ -112,6 +136,7 @@ var njq = (function (parent, $) {
 		var $el, selID;
 		if(sel instanceof jQuery) $el = sel;
 		else if (sel instanceof String)  $el = $("#" + sel);
+		else if (typeof sel == "string") $el = $("#" + sel);
 		else if(sel.id) $el = $("#" + sel.id);
 		else if(sel[0] && sel[0].id) $el = $("#" + sel[0].id);
 		else{
