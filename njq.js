@@ -17,6 +17,26 @@ var njq = (function (parent, $) {
 		return $.getJSON(url, params, callback);
 	};
 	
+	
+	my.getOptions = function(url,ctp,valFld,keyFld){
+	    var opts = {};
+	    opts['-- select --'] = '';
+	    // var url="/news?pAction=GetRecords";
+	    // url += "&dpAction=cnit";
+	     url +="&q=" + ctp;
+	     var fLoad = function(data){
+	         for(idx in data){
+	             rec = data[idx];
+	             var val = rec[valFld];
+	             var key = rec[keyFld];
+	             opts[key] = val;
+	         }
+	     }
+	     this.jqGet(url,true,fLoad);
+	     return opts;
+	};
+	
+
 	my.jqGet = function(myURL, flgSync, fLoad, fErr, dataType) {
 		if (dataType == null)
 			dataType = 'json';
