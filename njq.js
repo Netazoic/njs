@@ -33,6 +33,10 @@ var njq = (function (parent, $) {
 		return $.getJSON(url, params, callback);
 	};
 	
+	my.isString = function(val){
+		return (val instanceof String || typeof val == 'string')
+	};
+	
 	my.jqGet = function(myURL, flgSync, fLoad, fErr, dataType) {
 		if (dataType == null)
 			dataType = 'json';
@@ -91,7 +95,7 @@ var njq = (function (parent, $) {
 		*/
 		var $el, selID;
 		if(sel instanceof jQuery) $el = sel;
-		else if (sel instanceof String)  $el = $("#" + sel);
+		else if(this.isString(sel))  $el = $("#" + sel);
 		else if(sel.id) $el = $("#" + sel.id);
 		else if(sel[0] && sel[0].id) $el = $("#" + sel[0].id);
 		else{
