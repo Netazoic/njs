@@ -85,7 +85,7 @@ var njq = (function (parent, $) {
 		if (dataType == null)
 			dataType = 'json';
 		if (fErr == null)
-			fErr = errHdlr;
+			fErr = my.errHdlr;
 		var jqxhr = $.ajax({
 			type : "POST",
 			url : f.action,
