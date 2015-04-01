@@ -33,8 +33,15 @@ var njq = (function (parent, $) {
 		return $.getJSON(url, params, callback);
 	};
 	
+	my.getData = function(url){
+		var fLoad = function(data){
+			return data;
+		}
+		this.jqGet(url,true,fLoad);
+	}
 	
-	my.getOptions = function(url,ctp,valFld,keyFld){
+	
+	my.getOptions = function(url,ctp,keyFld,valFld){
 	    var opts = {};
 	    opts['-- select --'] = '';
 	    // var url="/news?pAction=GetRecords";
@@ -43,8 +50,8 @@ var njq = (function (parent, $) {
 	     var fLoad = function(data){
 	         for(idx in data){
 	             rec = data[idx];
-	             var val = rec[valFld];
 	             var key = rec[keyFld];
+	             var val = rec[valFld];
 	             opts[key] = val;
 	         }
 	     }
@@ -131,7 +138,7 @@ var njq = (function (parent, $) {
 	my.setOptions = function(sel,newOptions,selectedVal,flgKeepFirst){
 		//Thanks to CMS on http://stackoverflow.com/questions/1801499/how-to-change-options-of-select-with-jquery
 		//Set options in an HTML select input
-		//New options is a set of options in the form key:val, where key is the diplay and val is the actual value
+		//New options is a set of options in the form key:val, where key is the id and val is the display value ("name")
 		/*var newOptions = {"Option 1": "value1",
 				  "Option 2": "value2",
 				  "Option 3": "value3"
@@ -142,21 +149,22 @@ var njq = (function (parent, $) {
 		else if(this.isString(sel))  $el = $("#" + sel);
 		else if(sel.id) $el = $("#" + sel.id);
 		else if(sel[0] && sel[0].id) $el = $("#" + sel[0].id);
-		else{
+		if(!$el || !$el[0]){
 			alert("NJQ: couldn't figure out where you wanted to create the select. was trying to use " + sel);
 			return;
 		}
 		selID = $el.attr("id");
 		if(!flgKeepFirst)$el.empty(); // remove old options
 		else $('#' + selID + ' option:gt(0)').remove(); // remove all options, but not the first
-	 	$.each(newOptions, function(key, value) {
- 			if(key && key != "undefined"){
+	 	$.each(newOptions, function(key, name) {
+ 			if(name && name != "undefined"){
 			  $el.append($("<option></option>")
-			     .attr("value", value).text(key));
+			     .attr("value", key).text(name));
  			}
 		});
 	 	
 	 	if(selectedVal)	$el.val(selectedVal);
+	 	else  $el[0].selectedIndex = 0;
 	};
 
 	return parent;
