@@ -43,7 +43,7 @@ var njq = (function (parent, $) {
 	
 	my.getOptions = function(url,ctp,keyFld,valFld){
 	    var opts = {};
-	    opts['-- select --'] = '';
+	    var optsSize = 0;
 	    // var url="/news?pAction=GetRecords";
 	    // url += "&dpAction=cnit";
 	     url +="&q=" + ctp;
@@ -53,9 +53,11 @@ var njq = (function (parent, $) {
 	             var key = rec[keyFld];
 	             var val = rec[valFld];
 	             opts[key] = val;
+	             optsSize++;
 	         }
 	     }
 	     this.jqGet(url,true,fLoad);
+         if(optsSize>1) opts[0] = '--select--';
 	     return opts;
 	};
 	
