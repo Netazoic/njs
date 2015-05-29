@@ -57,7 +57,7 @@ var njq = (function (parent, $) {
 	         }
 	     }
 	     this.jqGet(url,true,fLoad);
-         if(optsSize>1) opts[0] = '--select--';
+
 	     return opts;
 	};
 	
