@@ -152,7 +152,7 @@ var njq = (function (parent, $) {
 		else if(sel.id) $el = $("#" + sel.id);
 		else if(sel[0] && sel[0].id) $el = $("#" + sel[0].id);
 		if(!$el || !$el[0]){
-			alert("NJQ: couldn't figure out where you wanted to create the select. was trying to use " + sel);
+			console.debug("NJQ: couldn't figure out where you wanted to create the select. was trying to use " + sel);
 			return;
 		}
 		selID = $el.attr("id");
